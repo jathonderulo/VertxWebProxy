@@ -81,7 +81,7 @@ public class App extends AbstractVerticle
                 req.toNetSocket()
                         // On success, let the target know and then set up the piping
                         .onSuccess(clientSocket -> {
-                                // Pipe
+                                // Literally whatever comes into clientSocket, send to targetSocket. Async op tho
                                 clientSocket.pipeTo(targetSocket)
                                         .onSuccess(v2 -> {
                                             System.out.println("Client to Target pipe established!");
@@ -90,6 +90,7 @@ public class App extends AbstractVerticle
                                             System.out.println("Client to Target pipe failed...");
                                             err.printStackTrace();
                                         });
+                                // Literally whatever comes into targetSocket, send to clientSocket. Async op tho
                                 targetSocket.pipeTo(clientSocket)
                                         .onSuccess(v3 -> {
                                             System.out.println("Target to client pipe established!");
