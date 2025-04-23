@@ -1,11 +1,10 @@
 package com.example.proxy.handlers;
 
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.net.NetSocket;
 
-public class HttpsRequestHandler extends RequestHandler {
+public class HttpsRequestHandler implements RequestHandler {
     private static final int HTTPS_PORT = 443;
     private final Vertx vertx;
 

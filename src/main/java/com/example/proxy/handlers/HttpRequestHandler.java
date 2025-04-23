@@ -4,7 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpServerRequest;
 
-public class HttpRequestHandler extends RequestHandler {
+public class HttpRequestHandler implements RequestHandler {
     private static final int HTTP_PORT = 80;
     private final Vertx vertx;
     private final HttpClient client;

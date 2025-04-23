@@ -1,3 +1,4 @@
+add time calculations
 implement caching
 finish loading config using jackson annotation jsonproperty and properties file in root
 implement threading or something with more verticles anyway
