@@ -2,3 +2,4 @@
 .env
 target/
 src/main/java/com/example/proxy/App2.java
+logs.txt
