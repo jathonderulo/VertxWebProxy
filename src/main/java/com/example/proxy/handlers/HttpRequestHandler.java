@@ -6,11 +6,9 @@ import io.vertx.core.http.HttpServerRequest;
 
 public class HttpRequestHandler implements RequestHandler {
     private static final int HTTP_PORT = 80;
-    private final Vertx vertx;
     private final HttpClient client;
 
     public HttpRequestHandler(Vertx vertx) {
-        this.vertx = vertx;
         this.client = vertx.createHttpClient();
     }
 
@@ -43,10 +41,9 @@ public class HttpRequestHandler implements RequestHandler {
                     });
         });
     }
-
-    public void close() {
-        if (client != null) {
-            client.close();
-        }
-    }
+//    public void close() {
+//        if (client != null) {
+//            client.close();
+//        }
+//    }
 }

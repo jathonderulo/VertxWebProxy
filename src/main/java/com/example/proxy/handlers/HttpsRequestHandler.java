@@ -3,16 +3,20 @@ package com.example.proxy.handlers;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.net.NetSocket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HttpsRequestHandler implements RequestHandler {
     private static final int HTTPS_PORT = 443;
     private final Vertx vertx;
+    private static final Logger LOG = LoggerFactory.getLogger(HttpsRequestHandler.class);
 
     public HttpsRequestHandler(Vertx vertx) {
         this.vertx = vertx;
     }
 
     public void handleRequest(HttpServerRequest req, String[] hostAndPort) {
+        long startTime = System.currentTimeMillis();
         String host = hostAndPort[0];
         int port = hostAndPort.length == 2 ? Integer.parseInt(hostAndPort[1]) : HTTPS_PORT;
         try {
@@ -24,18 +28,21 @@ public class HttpsRequestHandler implements RequestHandler {
                             .onSuccess(clientSocket -> {
                                 clientSocket.pipeTo(serverSocket)
                                         .onSuccess(v -> {
-                                            System.out.println("clientSocket reads are now serverSocket writes!");
+//                                            System.out.println("clientSocket reads sent to serverSocket writes!");
                                         })
                                         .onFailure(err -> {
-                                            System.out.println("Error: clientSocket reads failed to pipe to serverSocket writes");
+//                                            System.out.println("Error: clientSocket reads failed to pipe to serverSocket writes");
                                             err.printStackTrace();
                                         });
                                 serverSocket.pipeTo(clientSocket)
                                         .onSuccess(v -> {
-                                            System.out.println("serverSocket reads are now clientSocket writes!");
+//                                            System.out.println("serverSocket reads sent to clientSocket writes!");
+                                            long endTime = System.currentTimeMillis();
+                                            double durationInSeconds = ((double) (endTime - startTime) / 1000);
+                                            LOG.info("URI: {}. Took {} seconds.", req.uri(), durationInSeconds);
                                         })
                                         .onFailure(err -> {
-                                            System.out.println("Error: serverSocket reads failed to pipe to clientSocket writes");
+//                                            System.out.println("Error: serverSocket reads failed to pipe to clientSocket writes");
                                             err.printStackTrace();
                                         });
                             })
@@ -44,7 +51,7 @@ public class HttpsRequestHandler implements RequestHandler {
                                 req.response().setStatusCode(502).end("Error: Failed to downgrade HttpServerRequest to a raw TCP channel. ");
                             });
                 } else {
-                    System.out.println("Error: Failed to connect to the server at " + host + ":" + port);
+//                    System.out.println("Error: Failed to connect to the server at " + host + ":" + port);
                 }
             });
         }
