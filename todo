@@ -1,14 +1,15 @@
-fix this unhandled exception stuff at the bottom
 refactor code
 implement caching
 implement threading or something with more verticles anyway
+fix this unhandled exception stuff at the bottom?
 fix comments?
 
 
 
 
 
-
+io.netty.channel.StacklessClosedChannelException
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.write(Object, ChannelPromise)(Unknown Source)
 
 Apr 22, 2025 8:17:42 PM io.vertx.core.impl.ContextImpl
 SEVERE: Unhandled exception

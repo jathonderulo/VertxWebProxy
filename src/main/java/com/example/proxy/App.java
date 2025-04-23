@@ -31,13 +31,10 @@ public class App extends AbstractVerticle
      */
     @Override
     public void start() {
-        // Create an HttpServer object from the vertx framework
         HttpServer server = vertx.createHttpServer();
-
-        // Parse the port from env
         int listenOnPort = Integer.parseInt(dotenv.get("PORT_TO_SIT_ON"));
 
-        // Assign the request handler to the server
+        // Assign the request handler to the server, requests will go there
         server.requestHandler(this::handleProxyRequest);
 
         // Make the server listen to a specific port and return result of http
@@ -116,12 +113,6 @@ public class App extends AbstractVerticle
      * @param req
      */
     private void handleProxyRequestHTTP(HttpServerRequest req) {
-        // HTTPS check
-        if(req.method() == HttpMethod.CONNECT) {
-            System.out.println("Got HTTPS");
-            return;
-        }
-
         // Create HTTP client to represent a client to be able to send the request to the actual server
         HttpClient client = vertx.createHttpClient();
 
@@ -129,9 +120,6 @@ public class App extends AbstractVerticle
         int targetPort = Integer.parseInt(dotenv.get("HTTP_PORT"));
         MultiMap map = req.headers();
         String targetHost = map.get("Host");
-        System.out.println(multiMapToString(map));
-        System.out.println("targetPort = " + targetPort);
-        System.out.println("targetHost = " + targetHost);
 
         // The incoming request's body handler
         req.bodyHandler(body -> {
@@ -171,16 +159,5 @@ public class App extends AbstractVerticle
                         req.response().setStatusCode(502).end("Proxy: Request to the server failed\n");
                     });
         });
-    }
-
-    public String multiMapToString(MultiMap map) {
-        List<Map.Entry<String, String>> entries = map.entries();
-
-        StringBuilder sb = new StringBuilder();
-        for(Map.Entry<String, String> entry : entries) {
-            sb.append(entry.getKey() + ": " + entry.getValue() + "\n");
-        }
-
-        return sb.toString();
     }
 }
