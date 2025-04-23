@@ -1,5 +1,5 @@
-refactor code
 implement caching
+finish loading config using jackson annotation jsonproperty and properties file in root
 implement threading or something with more verticles anyway
 fix this unhandled exception stuff at the bottom?
 fix comments?
