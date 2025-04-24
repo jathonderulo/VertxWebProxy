@@ -38,8 +38,8 @@ public class HttpsRequestHandler implements RequestHandler {
                                         .onSuccess(v -> {
 //                                            System.out.println("serverSocket reads sent to clientSocket writes!");
                                             long endTime = System.currentTimeMillis();
-                                            double durationInSeconds = ((double) (endTime - startTime) / 1000);
-                                            LOG.info("URI: {}. Took {} seconds.", req.uri(), durationInSeconds);
+                                            double duration = ((double) (endTime - startTime));
+                                            LOG.info("FULL PROXY: Took {} ms for {}", duration, req.uri());
                                         })
                                         .onFailure(err -> {
 //                                            System.out.println("Error: serverSocket reads failed to pipe to clientSocket writes");
