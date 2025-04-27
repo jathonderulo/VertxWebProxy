@@ -26,6 +26,7 @@ public class LRUCache {
         }
 
         requestToResponseMap.put(request, response);
+        accessOrderQueue.add(request);
     }
 
     public synchronized boolean hasRequest(String request) {
@@ -41,16 +42,29 @@ public class LRUCache {
     }
 
     public synchronized void printStatistics(String request) {
-        // TODO: Print all the statistics
+        // TODO: Print all the statistics for this one request
     }
+
+    public synchronized void printStatistics() {
+        // TODO: Print all the statistics for all the requests
+        for (Map.Entry<String, String> entry : requestToResponseMap.entrySet()) {
+            System.out.println("Entry: " + entry.getKey() + ", " + entry.getValue());
+        }
+    }
+
 
     private void evictLRUEntry() {
         String itemToRemove = accessOrderQueue.poll();
+        System.out.println("Removed " + itemToRemove + " from the queue.");
         if (requestToResponseMap.remove(itemToRemove) == null) {
            System.out.println("Failed to evict an entry.");
         } else {
             System.out.println("Evicted an entry.");
         }
+    }
+
+    public int getCurrentSize() {
+        return requestToResponseMap.size();
     }
 }
 

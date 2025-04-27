@@ -19,4 +19,18 @@ public class LRUCacheTest {
         cache.addEntry("Request entry", "Response entry");
         assertEquals("Response entry", cache.getEntry("Request entry"));
     }
+
+    @Test
+    void testEvictWhenFull() throws Exception {
+        cache.addEntry("Request entry 1", "Response entry 1");
+        cache.addEntry("Request entry 2", "Response entry 2");
+        cache.addEntry("Request entry 3", "Response entry 3");
+
+        assertEquals(3, cache.getCurrentSize());
+
+        cache.addEntry("Request entry 4", "Response entry 4");
+        cache.addEntry("Request entry 5", "Response entry 5");
+        assertEquals(3, cache.getCurrentSize());
+        cache.printStatistics();
+    }
 }
