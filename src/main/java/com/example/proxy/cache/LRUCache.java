@@ -7,8 +7,16 @@ public class LRUCache {
     private final Queue<String> accessOrderQueue = new ArrayDeque<>();
     private int maxSize;
 
-    public LRUCache(int size) {
-        this.maxSize = size;
+    public LRUCache(int maxSize) {
+        this.maxSize = maxSize;
+    }
+
+    public synchronized String getEntry(String request) throws Exception {
+        if (this.hasRequest(request)) {
+            return requestToResponseMap.get(request);
+        } else {
+            throw new Exception("Entry not there");
+        }
     }
 
     public synchronized void addEntry(String request, String response) {
@@ -51,5 +59,5 @@ public class LRUCache {
  * cache.hasRequest(request)
  * cache.clear()
  * cache.printStatistics(request)
- *
+ * cache.getEntry(request)
  */
