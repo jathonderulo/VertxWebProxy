@@ -9,4 +9,33 @@ public class LRUCache {
     public LRUCache() {
 
     }
+
+    public synchronized void addEntry(String request, String response) {
+
+    }
+
+    public synchronized boolean hasRequest(String request) {
+        // TODO: add input validation
+        if (requestToResponseMap.containsKey(request)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public synchronized void clear() {
+        requestToResponseMap.clear();
+    }
+
+    public synchronized void printStatistics(String request) {
+        // TODO: Print all the statistics
+    }
 }
+
+/**
+ * cache.addEntry(request, response)
+ * cache.hasRequest(request)
+ * cache.clear()
+ * cache.printStatistics(request)
+ *
+ */
