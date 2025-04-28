@@ -20,6 +20,7 @@ public class LRUCache {
     public synchronized String getEntry(String request) {
         if (this.hasEntry(request)) {
             moveToFrontOfQueue(request);
+            LOG.info("Reading {} from cache. ", request);
             return requestToResponseMap.get(request);
         }
 

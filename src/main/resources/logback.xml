@@ -17,8 +17,12 @@
 
     <logger name="io.netty" level="WARN"/>
     <logger name="io.vertx" level="WARN"/>
-    <logger name="com.example.proxy.handlers.HttpRequestHandler" level="DEBUG"/>
-    <logger name="com.example.proxy.cache" level="DEBUG"/>
+    <logger name="com.example.proxy.handlers.HttpRequestHandler" level="DEBUG">
+        <appender-ref ref="FILE"/>
+    </logger>
+    <logger name="com.example.proxy.cache" level="DEBUG">
+        <appender-ref ref="CACHE_FILE" />
+    </logger>
     <root level="WARN">
         <appender-ref ref="FILE" />
     </root>

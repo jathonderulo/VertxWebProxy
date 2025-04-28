@@ -19,8 +19,12 @@ public class HttpRequestHandler implements RequestHandler {
         this.client = vertx.createHttpClient();
     }
 
-    public void handleRequest(HttpServerRequest req, String domain) throws URISyntaxException {
-
+    public void handleRequest(HttpServerRequest req, String domain) {
+        if (cache.hasEntry(domain)) {
+            LOG.info("Reading {} from cache!");
+            req.response().setStatusCode(200).end(cache.getEntry(domain));
+            return;
+        }
         req.bodyHandler(requestBody -> {
             client.request(req.method(), HTTP_PORT, domain, req.uri())
                     .compose(clientRequest -> {
@@ -33,6 +37,7 @@ public class HttpRequestHandler implements RequestHandler {
 
                         clientResponse.body()
                                 .onSuccess(responseBody -> {
+                                    cache.addEntry(domain, responseBody.toString());
                                     req.response().end(responseBody);
                                 })
                                 .onFailure(err -> {

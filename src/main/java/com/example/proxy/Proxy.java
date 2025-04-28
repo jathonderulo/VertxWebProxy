@@ -29,9 +29,9 @@ public class Proxy {
         server.requestHandler(this::handleRequest);
         server.listen(proxyPort, http -> {
             if (http.succeeded()) {
-                System.out.println("HTTP Server start up success!");
+                System.out.println("HTTP server start up success! Listening on port " + proxyPort);
             } else {
-                System.out.println("Error: HTTP Server start up failed.");
+                System.out.println("Error: HTTP server start up failed.");
             }
         });
     }
