@@ -8,7 +8,8 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerRequest;
 
-import java.util.Arrays;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class Proxy {
     private final RequestHandler httpRequestHandler;
@@ -35,16 +36,19 @@ public class Proxy {
         });
     }
 
-    private void handleRequest(HttpServerRequest req) {
-        String[] hostAndPort = req.uri().split(":");
-        System.out.println(req.uri());
-        if (hostAndPort.length == 0 || hostAndPort.length > 2) {
-            System.out.println("Error: hostAndPort is not valid. It was: " + Arrays.toString(hostAndPort));
-        }
-        if (req.method() == HttpMethod.CONNECT) {
-            httpsRequestHandler.handleRequest(req, hostAndPort);
-        } else {
-            httpRequestHandler.handleRequest(req, hostAndPort);
+    private void handleRequest(HttpServerRequest req)  {
+
+        try {
+            URI uri = new URI(req.uri());
+            String domain = uri.getHost();
+            System.out.println(req.uri());
+            if (req.method() == HttpMethod.CONNECT) {
+                httpsRequestHandler.handleRequest(req, domain);
+            } else {
+                httpRequestHandler.handleRequest(req, domain);
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
     }
 }

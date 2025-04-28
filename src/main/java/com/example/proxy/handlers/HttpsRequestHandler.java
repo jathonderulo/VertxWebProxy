@@ -15,12 +15,11 @@ public class HttpsRequestHandler implements RequestHandler {
         this.vertx = vertx;
     }
 
-    public void handleRequest(HttpServerRequest req, String[] hostAndPort) {
+    public void handleRequest(HttpServerRequest req, String domain) {
         long startTime = System.currentTimeMillis();
-        String host = hostAndPort[0];
-        int port = hostAndPort.length == 2 ? Integer.parseInt(hostAndPort[1]) : HTTPS_PORT;
+
         try {
-            vertx.createNetClient().connect(port, host, connectionResult -> {
+            vertx.createNetClient().connect(HTTPS_PORT, domain, connectionResult -> {
                 if (connectionResult.succeeded()) {
                     NetSocket serverSocket = connectionResult.result();
 
@@ -45,7 +44,7 @@ public class HttpsRequestHandler implements RequestHandler {
                                 req.response().setStatusCode(502).end("Error: Failed to downgrade HttpServerRequest to a raw TCP channel. ");
                             });
                 } else {
-                    System.out.println("Error: Failed to connect to the server at " + host + ":" + port);
+                    System.out.println("Error: Failed to connect to the server at " + domain + ":" + HTTPS_PORT);
                 }
             });
         }

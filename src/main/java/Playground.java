@@ -8,7 +8,7 @@ public class Playground {
 
     public static void main(String[] args) {
         LOG.info("Application started.");
-        String filePath = "logs.txt";
+        String filePath = "something.txt";
 
         try {
             // Simulate some operation

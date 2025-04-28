@@ -9,7 +9,7 @@ import java.util.*;
 public class LRUCache {
     private final Map<String, String> requestToResponseMap = new HashMap<>();
     private final Queue<String> accessOrderQueue = new ArrayDeque<>();
-    private final Logger log = LoggerFactory.getLogger(LRUCache.class);
+    private final Logger LOG = LoggerFactory.getLogger(LRUCache.class);
 
     private int maxSize;
 
@@ -33,7 +33,7 @@ public class LRUCache {
         }
 
         requestToResponseMap.put(request, response);
-        log.info("Added request {}", request);
+        LOG.info("Added request {}", request);
 
         if(accessOrderQueue.contains(request)) {
             moveToFrontOfQueue(request);
@@ -58,9 +58,9 @@ public class LRUCache {
     private void evictLRUEntry() {
         String itemToRemove = accessOrderQueue.poll();
         if (requestToResponseMap.remove(itemToRemove) == null) {
-            log.error("Failed to evict an entry: {}", itemToRemove);
+            LOG.error("Failed to evict an entry: {}", itemToRemove);
         } else {
-            log.info("Evicted an entry: {}", itemToRemove);
+            LOG.info("Evicted an entry: {}", itemToRemove);
         }
     }
 

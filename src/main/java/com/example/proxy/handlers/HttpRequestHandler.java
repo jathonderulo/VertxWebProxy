@@ -4,22 +4,25 @@ import com.example.proxy.cache.LRUCache;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpServerRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.URISyntaxException;
 
 public class HttpRequestHandler implements RequestHandler {
     private static final int HTTP_PORT = 80;
     private final HttpClient client;
     private final LRUCache cache = new LRUCache(3);
+    Logger LOG = LoggerFactory.getLogger(HttpRequestHandler.class);
 
     public HttpRequestHandler(Vertx vertx) {
         this.client = vertx.createHttpClient();
     }
 
-    public void handleRequest(HttpServerRequest req, String[] hostAndPort) {
-        String host = hostAndPort[0];
-        int port = hostAndPort.length == 2 ? Integer.parseInt(hostAndPort[1]) : HTTP_PORT;
+    public void handleRequest(HttpServerRequest req, String domain) throws URISyntaxException {
 
         req.bodyHandler(requestBody -> {
-            client.request(req.method(), port, host, req.uri())
+            client.request(req.method(), HTTP_PORT, domain, req.uri())
                     .compose(clientRequest -> {
                         clientRequest.headers().setAll(req.headers());
                         return clientRequest.send(requestBody);

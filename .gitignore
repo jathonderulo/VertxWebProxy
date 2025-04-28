@@ -2,4 +2,6 @@
 .env
 target/
 src/main/java/com/example/proxy/App2.java
-logs.txt
+http_logs.txt
+https_logs.txt
+cache_logs.txt
