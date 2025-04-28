@@ -1,6 +1,5 @@
-add more tests to the cache, don't use AI
+actually use the cache in the app
 improve readability, extendability, see what i can refactor and then ask gpt for finish
-find a more graceful way to handle errors than just throwing a generic exception
 use more verticles - check copilot chat / ask again if i'm following vertx design principles properly
 finish loading config using jackson annotation jsonproperty and properties file in root
 implement threading or something with more verticles anyway

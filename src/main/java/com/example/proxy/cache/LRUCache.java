@@ -11,13 +11,13 @@ public class LRUCache {
         this.maxSize = maxSize;
     }
 
-    public synchronized String getEntry(String request) throws Exception {
-        if (this.hasRequest(request)) {
+    public synchronized String getEntry(String request) {
+        if (this.hasEntry(request)) {
             moveToFrontOfQueue(request);
             return requestToResponseMap.get(request);
-        } else {
-            throw new Exception("Entry not there");
         }
+
+        return null;
     }
 
     public synchronized void addEntry(String request, String response) {
@@ -35,7 +35,7 @@ public class LRUCache {
         }
     }
 
-    public synchronized boolean hasRequest(String request) {
+    public synchronized boolean hasEntry(String request) {
         // TODO: add input validation
         if (requestToResponseMap.containsKey(request)) {
             return true;
@@ -87,6 +87,10 @@ public class LRUCache {
 
     public int getMapSize() {
         return requestToResponseMap.size();
+    }
+
+    public String pollQueue() {
+        return accessOrderQueue.poll();
     }
 }
 
