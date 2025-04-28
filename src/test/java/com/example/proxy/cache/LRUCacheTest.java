@@ -34,6 +34,16 @@ public class LRUCacheTest {
         cache.addEntry("Request entry 5", "Response entry 5");
         assertEquals(3, cache.getQueueSize());
         assertEquals(3, cache.getMapSize());
-//        cache.printStatistics();
+    }
+
+    @Test
+    void testClearCache() {
+        cache.addEntry("Request entry 1", "Response entry 1");
+        cache.addEntry("Request entry 2", "Response entry 2");
+        cache.addEntry("Request entry 3", "Response entry 3");
+        cache.clear();
+
+        assertEquals(0, cache.getMapSize());
+        assertEquals(0, cache.getQueueSize());
     }
 }

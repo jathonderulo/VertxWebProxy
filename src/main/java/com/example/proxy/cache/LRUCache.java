@@ -45,14 +45,14 @@ public class LRUCache {
 
     public synchronized void clear() {
         requestToResponseMap.clear();
+        accessOrderQueue.clear();
     }
 
     public synchronized void printStatistics(String request) {
-        // TODO: Print all the statistics for this one request
+        System.out.println("Entry: " + request + ", " + requestToResponseMap.get(request));
     }
 
     public synchronized void printStatistics() {
-        // TODO: Print all the statistics for all the requests
         for (String str : accessOrderQueue) {
             System.out.println("Entry: " + str + ", " + requestToResponseMap.get(str));
         }
