@@ -1,5 +1,6 @@
 package com.example.proxy.handlers;
 
+import com.example.proxy.cache.LRUCache;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpServerRequest;
@@ -7,6 +8,7 @@ import io.vertx.core.http.HttpServerRequest;
 public class HttpRequestHandler implements RequestHandler {
     private static final int HTTP_PORT = 80;
     private final HttpClient client;
+    private final LRUCache cache = new LRUCache(3);
 
     public HttpRequestHandler(Vertx vertx) {
         this.client = vertx.createHttpClient();

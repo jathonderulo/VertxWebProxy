@@ -25,7 +25,6 @@ public class LRUCacheTest {
         cache.addEntry("Request entry 1", "Response entry 1");
         cache.addEntry("Request entry 2", "Response entry 2");
         cache.addEntry("Request entry 3", "Response entry 3");
-
         cache.getEntry("Request entry 1");
 
         assertEquals("Request entry 2", cache.pollQueue());

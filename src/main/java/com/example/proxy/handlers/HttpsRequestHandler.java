@@ -27,22 +27,16 @@ public class HttpsRequestHandler implements RequestHandler {
                     req.toNetSocket()
                             .onSuccess(clientSocket -> {
                                 clientSocket.pipeTo(serverSocket)
-                                        .onSuccess(v -> {
-//                                            System.out.println("clientSocket reads sent to serverSocket writes!");
-                                        })
                                         .onFailure(err -> {
-//                                            System.out.println("Error: clientSocket reads failed to pipe to serverSocket writes");
                                             err.printStackTrace();
                                         });
                                 serverSocket.pipeTo(clientSocket)
                                         .onSuccess(v -> {
-//                                            System.out.println("serverSocket reads sent to clientSocket writes!");
                                             long endTime = System.currentTimeMillis();
                                             double duration = ((double) (endTime - startTime));
                                             LOG.info("FULL PROXY: Took {} ms for {}", duration, req.uri());
                                         })
                                         .onFailure(err -> {
-//                                            System.out.println("Error: serverSocket reads failed to pipe to clientSocket writes");
                                             err.printStackTrace();
                                         });
                             })
@@ -51,7 +45,7 @@ public class HttpsRequestHandler implements RequestHandler {
                                 req.response().setStatusCode(502).end("Error: Failed to downgrade HttpServerRequest to a raw TCP channel. ");
                             });
                 } else {
-//                    System.out.println("Error: Failed to connect to the server at " + host + ":" + port);
+                    System.out.println("Error: Failed to connect to the server at " + host + ":" + port);
                 }
             });
         }

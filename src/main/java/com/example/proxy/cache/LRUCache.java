@@ -1,10 +1,16 @@
 package com.example.proxy.cache;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
 public class LRUCache {
     private final Map<String, String> requestToResponseMap = new HashMap<>();
     private final Queue<String> accessOrderQueue = new ArrayDeque<>();
+    private final Logger log = LoggerFactory.getLogger(LRUCache.class);
+
     private int maxSize;
 
     public LRUCache(int maxSize) {
@@ -27,6 +33,7 @@ public class LRUCache {
         }
 
         requestToResponseMap.put(request, response);
+        log.info("Added request {}", request);
 
         if(accessOrderQueue.contains(request)) {
             moveToFrontOfQueue(request);
@@ -48,23 +55,12 @@ public class LRUCache {
         accessOrderQueue.clear();
     }
 
-    public synchronized void printStatistics(String request) {
-        System.out.println("Entry: " + request + ", " + requestToResponseMap.get(request));
-    }
-
-    public synchronized void printStatistics() {
-        for (String str : accessOrderQueue) {
-            System.out.println("Entry: " + str + ", " + requestToResponseMap.get(str));
-        }
-    }
-
     private void evictLRUEntry() {
         String itemToRemove = accessOrderQueue.poll();
-        System.out.println("Removed " + itemToRemove + " from the queue.");
         if (requestToResponseMap.remove(itemToRemove) == null) {
-           System.out.println("Failed to evict an entry.");
+            log.error("Failed to evict an entry: {}", itemToRemove);
         } else {
-            System.out.println("Evicted an entry.");
+            log.info("Evicted an entry: {}", itemToRemove);
         }
     }
 
@@ -91,6 +87,15 @@ public class LRUCache {
 
     public String pollQueue() {
         return accessOrderQueue.poll();
+    }
+    public synchronized void printStatistics(String request) {
+        System.out.println("Entry: " + request + ", " + requestToResponseMap.get(request));
+    }
+
+    public synchronized void printStatistics() {
+        for (String str : accessOrderQueue) {
+            System.out.println("Entry: " + str + ", " + requestToResponseMap.get(str));
+        }
     }
 }
 
