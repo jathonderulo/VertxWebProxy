@@ -25,12 +25,15 @@ public class LRUCacheTest {
         cache.addEntry("Request entry 1", "Response entry 1");
         cache.addEntry("Request entry 2", "Response entry 2");
         cache.addEntry("Request entry 3", "Response entry 3");
-
-        assertEquals(3, cache.getCurrentSize());
+        cache.getEntry("Request entry 1");
+        cache.printStatistics();
+        assertEquals(3, cache.getQueueSize());
+        assertEquals(3, cache.getMapSize());
 
         cache.addEntry("Request entry 4", "Response entry 4");
         cache.addEntry("Request entry 5", "Response entry 5");
-        assertEquals(3, cache.getCurrentSize());
-        cache.printStatistics();
+        assertEquals(3, cache.getQueueSize());
+        assertEquals(3, cache.getMapSize());
+//        cache.printStatistics();
     }
 }

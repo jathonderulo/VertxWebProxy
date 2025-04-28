@@ -13,6 +13,7 @@ public class LRUCache {
 
     public synchronized String getEntry(String request) throws Exception {
         if (this.hasRequest(request)) {
+            moveToFrontOfQueue(request);
             return requestToResponseMap.get(request);
         } else {
             throw new Exception("Entry not there");
@@ -26,7 +27,12 @@ public class LRUCache {
         }
 
         requestToResponseMap.put(request, response);
-        accessOrderQueue.add(request);
+
+        if(accessOrderQueue.contains(request)) {
+            moveToFrontOfQueue(request);
+        } else {
+            accessOrderQueue.add(request);
+        }
     }
 
     public synchronized boolean hasRequest(String request) {
@@ -47,11 +53,10 @@ public class LRUCache {
 
     public synchronized void printStatistics() {
         // TODO: Print all the statistics for all the requests
-        for (Map.Entry<String, String> entry : requestToResponseMap.entrySet()) {
-            System.out.println("Entry: " + entry.getKey() + ", " + entry.getValue());
+        for (String str : accessOrderQueue) {
+            System.out.println("Entry: " + str + ", " + requestToResponseMap.get(str));
         }
     }
-
 
     private void evictLRUEntry() {
         String itemToRemove = accessOrderQueue.poll();
@@ -64,6 +69,23 @@ public class LRUCache {
     }
 
     public int getCurrentSize() {
+        return requestToResponseMap.size();
+    }
+
+    private void moveToFrontOfQueue(String request) {
+        accessOrderQueue.remove(request);
+        accessOrderQueue.add(request);
+    }
+
+    /**
+     * Temp methods
+     */
+
+    public int getQueueSize() {
+        return accessOrderQueue.size();
+    }
+
+    public int getMapSize() {
         return requestToResponseMap.size();
     }
 }
