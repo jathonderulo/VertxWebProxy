@@ -1,4 +1,4 @@
-actually use the cache in the app. I think i'm not handling hostAndPort correctly, check the https logs
+fix the caching. use httpbin/check http_logs and you'll understand. just doing domain isn't enough, need to do per full resource
 add flexible port handling to sending http / https requests. so basically check for a port, default to default if no port specified
 improve readability, extendability, see what i can refactor and then ask gpt for finish
 use more verticles - check copilot chat / ask again if i'm following vertx design principles properly
