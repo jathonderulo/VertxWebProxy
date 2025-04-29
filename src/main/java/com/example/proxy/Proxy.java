@@ -10,6 +10,7 @@ import io.vertx.core.http.HttpServerRequest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 public class Proxy {
     private final RequestHandler httpRequestHandler;
@@ -39,13 +40,13 @@ public class Proxy {
     private void handleRequest(HttpServerRequest req)  {
 
         try {
-            URI uri = new URI(req.uri());
-            String domain = uri.getHost();
+            String uri = req.uri();
+            String host = new URI(uri).getHost();
             System.out.println(req.uri());
             if (req.method() == HttpMethod.CONNECT) {
-                httpsRequestHandler.handleRequest(req, domain);
+                httpsRequestHandler.handleRequest(req, host, uri);
             } else {
-                httpRequestHandler.handleRequest(req, domain);
+                httpRequestHandler.handleRequest(req, host, uri);
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();

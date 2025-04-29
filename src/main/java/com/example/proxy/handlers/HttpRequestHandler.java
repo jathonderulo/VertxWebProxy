@@ -19,14 +19,14 @@ public class HttpRequestHandler implements RequestHandler {
         this.client = vertx.createHttpClient();
     }
 
-    public void handleRequest(HttpServerRequest req, String domain) {
-        if (cache.hasEntry(domain)) {
-            LOG.info("Reading {} from cache!");
-            req.response().setStatusCode(200).end(cache.getEntry(domain));
+    public void handleRequest(HttpServerRequest req, String host, String uri) {
+        if (cache.hasEntry(uri)) {
+            LOG.info("Reading {} from cache!", uri);
+            req.response().setStatusCode(200).end(cache.getEntry(uri));
             return;
         }
         req.bodyHandler(requestBody -> {
-            client.request(req.method(), HTTP_PORT, domain, req.uri())
+            client.request(req.method(), HTTP_PORT, host, uri)
                     .compose(clientRequest -> {
                         clientRequest.headers().setAll(req.headers());
                         return clientRequest.send(requestBody);
@@ -37,7 +37,7 @@ public class HttpRequestHandler implements RequestHandler {
 
                         clientResponse.body()
                                 .onSuccess(responseBody -> {
-                                    cache.addEntry(domain, responseBody.toString());
+                                    cache.addEntry(uri, responseBody.toString());
                                     req.response().end(responseBody);
                                 })
                                 .onFailure(err -> {
@@ -51,9 +51,4 @@ public class HttpRequestHandler implements RequestHandler {
                     });
         });
     }
-//    public void close() {
-//        if (client != null) {
-//            client.close();
-//        }
-//    }
 }

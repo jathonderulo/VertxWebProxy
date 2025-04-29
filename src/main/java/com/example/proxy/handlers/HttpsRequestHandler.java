@@ -15,11 +15,10 @@ public class HttpsRequestHandler implements RequestHandler {
         this.vertx = vertx;
     }
 
-    public void handleRequest(HttpServerRequest req, String domain) {
+    public void handleRequest(HttpServerRequest req, String host, String uri) {
         long startTime = System.currentTimeMillis();
-
         try {
-            vertx.createNetClient().connect(HTTPS_PORT, domain, connectionResult -> {
+            vertx.createNetClient().connect(HTTPS_PORT, host, connectionResult -> {
                 if (connectionResult.succeeded()) {
                     NetSocket serverSocket = connectionResult.result();
 
@@ -33,7 +32,7 @@ public class HttpsRequestHandler implements RequestHandler {
                                         .onSuccess(v -> {
                                             long endTime = System.currentTimeMillis();
                                             double duration = ((double) (endTime - startTime));
-                                            LOG.info("FULL PROXY: Took {} ms for {}", duration, req.uri());
+                                            LOG.info("FULL PROXY: Took {} ms for {}", duration, uri);
                                         })
                                         .onFailure(err -> {
                                             err.printStackTrace();
@@ -44,7 +43,7 @@ public class HttpsRequestHandler implements RequestHandler {
                                 req.response().setStatusCode(502).end("Error: Failed to downgrade HttpServerRequest to a raw TCP channel. ");
                             });
                 } else {
-                    System.out.println("Error: Failed to connect to the server at " + domain + ":" + HTTPS_PORT);
+                    System.out.println("Error: Failed to connect to the server at " + host + ":" + HTTPS_PORT);
                 }
             });
         }
