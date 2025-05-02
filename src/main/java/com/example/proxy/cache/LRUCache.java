@@ -1,23 +1,23 @@
 package com.example.proxy.cache;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-public class LRUCache {
-    private final Map<String, String> requestToResponseMap = new HashMap<>();
-    private final Queue<String> accessOrderQueue = new ArrayDeque<>();
+public class LRUCache<K, V> implements Cache<K, V> {
+    private final Map<K, V> requestToResponseMap = new HashMap<>();
+    private final Queue<K> accessOrderQueue = new ArrayDeque<>();
     private final Logger LOG = LoggerFactory.getLogger(LRUCache.class);
 
-    private int maxSize;
+    private final int maxSize;
 
     public LRUCache(int maxSize) {
         this.maxSize = maxSize;
     }
 
-    public synchronized String getEntry(String request) {
+    @Override
+    public synchronized V getEntry(K request) {
         if (this.hasEntry(request)) {
             moveToFrontOfQueue(request);
             LOG.info("Reading {} from cache. ", request);
@@ -27,7 +27,8 @@ public class LRUCache {
         return null;
     }
 
-    public synchronized void addEntry(String request, String response) {
+    @Override
+    public synchronized void addEntry(K request, V response) {
         if(requestToResponseMap.size() == maxSize) {
             System.out.println("Max size reached.");
             evictLRUEntry();
@@ -43,7 +44,8 @@ public class LRUCache {
         }
     }
 
-    public synchronized boolean hasEntry(String request) {
+    @Override
+    public synchronized boolean hasEntry(K request) {
         // TODO: add input validation
         if (requestToResponseMap.containsKey(request)) {
             return true;
@@ -57,7 +59,7 @@ public class LRUCache {
     }
 
     private void evictLRUEntry() {
-        String itemToRemove = accessOrderQueue.poll();
+        K itemToRemove = accessOrderQueue.poll();
         if (requestToResponseMap.remove(itemToRemove) == null) {
             LOG.error("Failed to evict an entry: {}", itemToRemove);
         } else {
@@ -69,7 +71,7 @@ public class LRUCache {
         return requestToResponseMap.size();
     }
 
-    private void moveToFrontOfQueue(String request) {
+    private void moveToFrontOfQueue(K request) {
         accessOrderQueue.remove(request);
         accessOrderQueue.add(request);
     }
@@ -89,13 +91,13 @@ public class LRUCache {
     public String pollQueue() {
         return accessOrderQueue.poll();
     }
-    public synchronized void printStatistics(String request) {
+    public synchronized void printStatistics(K request) {
         System.out.println("Entry: " + request + ", " + requestToResponseMap.get(request));
     }
 
     public synchronized void printStatistics() {
-        for (String str : accessOrderQueue) {
-            System.out.println("Entry: " + str + ", " + requestToResponseMap.get(str));
+        for (K key : accessOrderQueue) {
+            System.out.println("Entry: " + key + ", " + requestToResponseMap.get(key));
         }
     }
 }

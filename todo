@@ -1,6 +1,6 @@
-fix the caching. use httpbin/check http_logs and you'll understand. just doing domain isn't enough, need to do per full resource
+follow SOLID more. Write the principles out, think for myself, and then refer to the copilot output.
+docker containerize my stuff and port map so it looks better on github
 add flexible port handling to sending http / https requests. so basically check for a port, default to default if no port specified
-improve readability, extendability, see what i can refactor and then ask gpt for finish
 use more verticles - check copilot chat / ask again if i'm following vertx design principles properly
 finish loading config using jackson annotation jsonproperty and properties file in root
 implement threading or something with more verticles anyway

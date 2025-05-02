@@ -10,7 +10,6 @@ import io.vertx.core.http.HttpServerRequest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 
 public class Proxy {
     private final RequestHandler httpRequestHandler;

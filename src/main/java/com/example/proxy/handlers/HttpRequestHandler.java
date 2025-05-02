@@ -7,12 +7,10 @@ import io.vertx.core.http.HttpServerRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URISyntaxException;
-
 public class HttpRequestHandler implements RequestHandler {
     private static final int HTTP_PORT = 80;
     private final HttpClient client;
-    private final LRUCache cache = new LRUCache(3);
+    private final LRUCache cache = new LRUCache(5);
     Logger LOG = LoggerFactory.getLogger(HttpRequestHandler.class);
 
     public HttpRequestHandler(Vertx vertx) {
@@ -25,6 +23,7 @@ public class HttpRequestHandler implements RequestHandler {
             req.response().setStatusCode(200).end(cache.getEntry(uri));
             return;
         }
+
         req.bodyHandler(requestBody -> {
             client.request(req.method(), HTTP_PORT, host, uri)
                     .compose(clientRequest -> {

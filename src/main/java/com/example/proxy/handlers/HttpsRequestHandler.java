@@ -16,6 +16,7 @@ public class HttpsRequestHandler implements RequestHandler {
     }
 
     public void handleRequest(HttpServerRequest req, String host, String uri) {
+        LOG.info("Host: {}, uri: {}", host, uri);
         long startTime = System.currentTimeMillis();
         try {
             vertx.createNetClient().connect(HTTPS_PORT, host, connectionResult -> {
@@ -33,6 +34,7 @@ public class HttpsRequestHandler implements RequestHandler {
                                             long endTime = System.currentTimeMillis();
                                             double duration = ((double) (endTime - startTime));
                                             LOG.info("FULL PROXY: Took {} ms for {}", duration, uri);
+
                                         })
                                         .onFailure(err -> {
                                             err.printStackTrace();

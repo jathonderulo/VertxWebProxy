@@ -1,5 +1,5 @@
 <configuration>
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <appender name="HTTP_FILE" class="ch.qos.logback.core.FileAppender">
         <file>http_logs.txt</file>
         <append>false</append>
         <encoder>
@@ -14,11 +14,21 @@
             <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg %n </pattern>
         </encoder>
     </appender>
+    <appender name="HTTPS_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>https_logs.txt</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg %n </pattern>
+        </encoder>
+    </appender>
 
     <logger name="io.netty" level="WARN"/>
     <logger name="io.vertx" level="WARN"/>
+    <logger name="com.example.proxy.handlers.HttpsRequestHandler" level="DEBUG">
+        <appender-ref ref="HTTPS_FILE"/>
+    </logger>
     <logger name="com.example.proxy.handlers.HttpRequestHandler" level="DEBUG">
-        <appender-ref ref="FILE"/>
+        <appender-ref ref="HTTP_FILE"/>
     </logger>
     <logger name="com.example.proxy.cache" level="DEBUG">
         <appender-ref ref="CACHE_FILE" />
