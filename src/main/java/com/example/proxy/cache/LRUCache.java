@@ -67,10 +67,6 @@ public class LRUCache<K, V> implements Cache<K, V> {
         }
     }
 
-    public int getCurrentSize() {
-        return requestToResponseMap.size();
-    }
-
     private void moveToFrontOfQueue(K request) {
         accessOrderQueue.remove(request);
         accessOrderQueue.add(request);
@@ -90,15 +86,6 @@ public class LRUCache<K, V> implements Cache<K, V> {
 
     public K pollQueue() {
         return accessOrderQueue.poll();
-    }
-    public synchronized void printStatistics(K request) {
-        System.out.println("Entry: " + request + ", " + requestToResponseMap.get(request));
-    }
-
-    public synchronized void printStatistics() {
-        for (K key : accessOrderQueue) {
-            System.out.println("Entry: " + key + ", " + requestToResponseMap.get(key));
-        }
     }
 }
 

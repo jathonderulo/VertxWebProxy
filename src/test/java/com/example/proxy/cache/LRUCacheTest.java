@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LRUCacheTest {
-    private LRUCache cache;
+    private LRUCache<String, String> cache;
 
     @BeforeEach
     void setup() {
