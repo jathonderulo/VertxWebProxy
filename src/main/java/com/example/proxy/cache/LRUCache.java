@@ -88,7 +88,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
         return requestToResponseMap.size();
     }
 
-    public String pollQueue() {
+    public K pollQueue() {
         return accessOrderQueue.poll();
     }
     public synchronized void printStatistics(K request) {
