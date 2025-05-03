@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class HttpRequestHandler implements RequestHandler {
     private static final int HTTP_PORT = 80;
     private final HttpClient client;
-    private final LRUCache<String, String> cache = new LRUCache(5);
+    private final LRUCache<String, String> cache = new LRUCache<>(5);
     Logger LOG = LoggerFactory.getLogger(HttpRequestHandler.class);
 
     public HttpRequestHandler(Vertx vertx) {

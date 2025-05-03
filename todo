@@ -4,7 +4,7 @@ add flexible port handling to sending http / https requests. so basically check 
 use more verticles - check copilot chat / ask again if i'm following vertx design principles properly
 finish loading config using jackson annotation jsonproperty and properties file in root
 implement threading or something with more verticles anyway
-fix this unhandled exception stuff at the bottom?
+fix this unhandled exception stuff at the bottom
 fix comments?
 change printlns to logs
 

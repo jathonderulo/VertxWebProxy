@@ -4,14 +4,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class LRUCacheTest {
     private LRUCache<String, String> cache;
 
     @BeforeEach
     void setup() {
-        cache = new LRUCache(3);
+        cache = new LRUCache<>(3);
     }
 
     @Test
