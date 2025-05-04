@@ -41,12 +41,11 @@ public class Proxy {
             String host = new URI(uri).getHost();
             System.out.println(req.uri());
 
-            if(req.method() == HttpMethod.CONNECT) {
-                handlers.get(WebProtocol.Https).handleRequest(req, host, uri);
-            } else {
-                handlers.get(WebProtocol.Http).handleRequest(req, host, uri);
-            }
-
+            WebProtocol protocol =
+                req.method() == HttpMethod.CONNECT
+                    ? WebProtocol.Https
+                    : WebProtocol.Http;
+            handlers.get(protocol).handleRequest(req, host, uri);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
