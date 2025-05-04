@@ -53,5 +53,4 @@ public class HttpsRequestHandler implements RequestHandler {
             e.printStackTrace();
         }
     }
-
 }

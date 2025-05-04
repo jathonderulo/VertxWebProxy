@@ -4,4 +4,5 @@ import io.vertx.core.http.HttpServerRequest;
 
 public interface RequestHandler {
     void handleRequest(HttpServerRequest req, String host, String uri);
+
 }

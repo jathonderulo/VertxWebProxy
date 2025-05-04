@@ -1,5 +1,6 @@
 follow SOLID more. Write the principles out, think for myself, and then refer to the copilot output.
 docker containerize my stuff and port map so it looks better on github
+add a dependency so I can use mockito to mock external dependencies
 add flexible port handling to sending http / https requests. so basically check for a port, default to default if no port specified
 use more verticles - check copilot chat / ask again if i'm following vertx design principles properly
 finish loading config using jackson annotation jsonproperty and properties file in root
