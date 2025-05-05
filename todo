@@ -1,4 +1,3 @@
-
 add a dependency so I can use mockito to mock external dependencies
 still need to be able to refactor http/https handlers' 'handleRequest' methods cuz I think they may be too big
 add flexible port handling to sending http / https requests. so basically check for a port, default to default if no port specified

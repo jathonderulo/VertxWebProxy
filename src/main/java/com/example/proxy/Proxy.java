@@ -9,6 +9,7 @@ import io.vertx.core.http.HttpServerRequest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.Map;
 
 public class Proxy {
@@ -36,18 +37,23 @@ public class Proxy {
     }
 
     private void handleRequest(HttpServerRequest req)  {
-        try {
-            String uri = req.uri();
-            String host = new URI(uri).getHost();
-            System.out.println(req.uri());
-
-            WebProtocol protocol =
-                req.method() == HttpMethod.CONNECT
-                    ? WebProtocol.Https
-                    : WebProtocol.Http;
-            handlers.get(protocol).handleRequest(req, host, uri);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        String uri = req.uri();
+        String[] uriSplitByColon = uri.split(":");
+        String host;
+        // some weird URI parsing. sometimes we get example.com:443 and sometimes we get http://example.com
+        if (uriSplitByColon[0].equals("http") || uriSplitByColon[0].equals("https")) {
+            System.out.println(Arrays.toString(uriSplitByColon));
+            host = uriSplitByColon[1].substring(2, uriSplitByColon[1].length() - 1); // skip the first two forward slashes and last forward slash
+            System.out.println("Host is 2 " + host);
+        } else {
+            host = uriSplitByColon[0];
         }
+        System.out.println("Host is " + host);
+
+        WebProtocol protocol =
+            req.method() == HttpMethod.CONNECT
+                ? WebProtocol.Https
+                : WebProtocol.Http;
+        handlers.get(protocol).handleRequest(req, host, uri);
     }
 }
