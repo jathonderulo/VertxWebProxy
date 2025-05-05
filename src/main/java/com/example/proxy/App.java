@@ -6,14 +6,12 @@ import com.example.proxy.handlers.RequestHandler;
 import com.example.proxy.webprotocols.WebProtocol;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
-import io.github.cdimascio.dotenv.Dotenv;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class App extends AbstractVerticle {
-    private static final Dotenv dotenv = Dotenv.load();
 
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
@@ -22,7 +20,7 @@ public class App extends AbstractVerticle {
 
     @Override
     public void start() {
-        int port = Integer.parseInt(dotenv.get("PORT_TO_SIT_ON"));
+        int port = 4000;
         Map<WebProtocol, RequestHandler> handlers = new HashMap<>();
         handlers.put(WebProtocol.Http, new HttpRequestHandler(vertx));
         handlers.put(WebProtocol.Https, new HttpsRequestHandler(vertx));

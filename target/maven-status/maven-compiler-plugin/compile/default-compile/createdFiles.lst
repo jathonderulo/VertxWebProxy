@@ -1,6 +1,7 @@
 com/example/proxy/cache/LRUCache.class
 com/example/demo/AsyncExample.class
 com/example/proxy/Proxy.class
+com/example/proxy/webprotocols/WebProtocol.class
 com/example/proxy/handlers/RequestHandler.class
 Playground.class
 com/example/proxy/cache/Cache.class
