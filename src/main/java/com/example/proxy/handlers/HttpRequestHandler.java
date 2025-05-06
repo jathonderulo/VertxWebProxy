@@ -23,8 +23,8 @@ public class HttpRequestHandler implements RequestHandler {
         if (cache.hasEntry(uri)) {
             LOG.info("Reading {} from cache!", uri);
             CachedResponse cachedResponse = cache.getEntry(uri);
-            req.response().setStatusCode(200);
-            req.headers().setAll(cachedResponse.headers);
+            req.response().setStatusCode(cachedResponse.statusCode);
+            req.response().headers().setAll(cachedResponse.headers);
             req.response().end(cachedResponse.body);
             return;
         }
@@ -41,7 +41,7 @@ public class HttpRequestHandler implements RequestHandler {
 
                         clientResponse.body()
                                 .onSuccess(responseBody -> {
-                                    CachedResponse newCachedResponse = new CachedResponse(responseBody.toString(), clientResponse.headers());
+                                    CachedResponse newCachedResponse = new CachedResponse(clientResponse.statusCode(), responseBody.toString(), clientResponse.headers());
                                     cache.addEntry(uri, newCachedResponse);
                                     req.response().end(responseBody);
                                 })
