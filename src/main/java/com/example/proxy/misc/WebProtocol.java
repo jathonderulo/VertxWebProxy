@@ -1,4 +1,4 @@
-package com.example.proxy.webprotocols;
+package com.example.proxy.misc;
 
 public enum WebProtocol {
     Http,
