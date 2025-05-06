@@ -3,7 +3,7 @@ package com.example.proxy;
 import com.example.proxy.handlers.HttpRequestHandler;
 import com.example.proxy.handlers.HttpsRequestHandler;
 import com.example.proxy.handlers.RequestHandler;
-import com.example.proxy.webprotocols.WebProtocol;
+import com.example.proxy.misc.WebProtocol;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 

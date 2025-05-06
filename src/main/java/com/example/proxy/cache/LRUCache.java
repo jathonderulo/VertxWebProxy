@@ -72,6 +72,18 @@ public class LRUCache<K, V> implements Cache<K, V> {
         accessOrderQueue.add(request);
     }
 
+    public String getCacheContents() {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<K, V> entry : requestToResponseMap.entrySet()) {
+            sb.append(entry.getKey())
+                    .append(": ")
+                    .append(entry.getValue())
+                    .append("\n");
+        }
+
+        return sb.toString();
+    }
+
     /**
      * Temp methods
      */
