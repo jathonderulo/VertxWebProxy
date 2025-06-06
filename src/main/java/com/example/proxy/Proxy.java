@@ -1,7 +1,5 @@
 package com.example.proxy;
 
-import com.example.proxy.handlers.HttpRequestHandler;
-import com.example.proxy.handlers.HttpsRequestHandler;
 import com.example.proxy.handlers.RequestHandler;
 import com.example.proxy.misc.WebProtocol;
 import io.vertx.core.Vertx;
@@ -38,11 +36,6 @@ public class Proxy {
     private void handleRequest(HttpServerRequest req)  {
         String uri = req.uri();
 
-        if (uri.equals("/printCache")) {
-            handlePrintCache(req);
-            return;
-        }
-
         String[] uriSplitByColon = uri.split(":");
         String host;
         // some weird URI parsing. sometimes we get example.com:443 and sometimes we get http://example.com
@@ -59,15 +52,5 @@ public class Proxy {
                 ? WebProtocol.Https
                 : WebProtocol.Http;
         handlers.get(protocol).handleRequest(req, host, uri);
-    }
-
-    private void handlePrintCache(HttpServerRequest req) {
-        RequestHandler httpHandler = handlers.get(WebProtocol.Http);
-        if (httpHandler != null) {
-            String cacheContents = ((HttpRequestHandler) httpHandler).getCacheContents();
-            req.response()
-                    .putHeader("content-type", "application/json")
-                    .end(cacheContents);
-        }
     }
 }
